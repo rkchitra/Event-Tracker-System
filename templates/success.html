@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Success!</title>
+	<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+<style type="text/css">
+	.jumbotron{
+		color:black;
+		margin-top: 150px;
+	}
+	#link{
+		color:white;
+	}
+
+	.jumbotron h2{
+		margin-left: 120px;
+	}
+	.jumbotron p{
+		margin-left: 350px;
+		margin-top: 20px;
+	}
+</style> 
+</head>
+<body>
+	<div class="container">
+		<div class="jumbotron">
+			<h2>Congratulations!You've successfully registered!</h2>
+			<p>Click here to <a href="{{ url_for('index2') }}" id="link" class="btn btn-success btn-lg"> Login</a></p>
+
+		</div>
+	</div>
+	
+
+</body>
+</html>
