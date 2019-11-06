@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Demo</title>
+</head>
+<body>
+
+	<!-- <script type="text/javascript">
+		function check_mes(){
+			var result = confirm("Are you sure? This action cannot be undone.");
+if (result) {
+    document.getElementById("message").style.display = "none";
+    $.get(url_for('hello'));
+}
+		}
+	</script>
+
+<h1 id="message">Hello World</h1>
+<a href="#" onclick="check_mes()">Click here to delete the above message </a> -->
+<script type="text/javascript">$.post(url_for('hello'));</script>
+</body>
+</html>

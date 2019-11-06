@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Display</title>
+  <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+  <style type="text/css">
+    #hh2{
+      margin-left: 450px;
+    }
+
+    .tab_all{
+    	width: 1000px;
+    	margin-left: 150px;
+    }
+
+  </style>
+
+</head>
+<body>
+  
+  <h1 style="margin-left: 500px; text-decoration: underline;">Events you've registered for</h1>
+
+<div style="margin-top: 30px;"><h1 style="margin-left: 500px; font-size: 30px;">Upcoming</h1>
+
+  <div class="table-responsive tab_all">
+  <table id="tab1" class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Conducted By</th>
+      <th scope="col">Event Name</th>
+      <th scope="col">Event Description</th>
+      <th scope="col">Date</th>
+      <th scope="col">Big event</th>
+      <th scope="col">Unregister</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+
+        {% for row in ev %} 
+            <tr id="tab2">
+                {% if row[0]=='Onyx' %}
+                <th><a href="{{url_for('Onyx')}}">{{row[0]}}</a></th>
+                {% else %}
+                <th><a href="#">{{row[0]}}</a></th>
+                {% endif %}
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td><a href="#">Unregister</a></td>
+
+                
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+</div>
+<div style="margin-top: 30px;"><h1 style="margin-left: 500px; font-size: 30px;">Earlier</h1>
+
+
+<div class="table-responsive tab_all">
+  <table id="tab1" class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Conducted By</th>
+      <th scope="col">Event Name</th>
+      <th scope="col">Event Description</th>
+      <th scope="col">Date</th>
+      <th scope="col">Big event</th>
+      <th scope="col">Feedback </th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+
+        {% for row in ev2 %} 
+            <tr id="tab2">
+                {% if row[0]=='Onyx' %}
+                <th><a href="{{url_for('Onyx')}}">{{row[0]}}</a></th>
+                {% else %}
+                <th><a href="#">{{row[0]}}</a></th>
+                {% endif %}
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td><a href="#">Feedback</a></td>
+
+                
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+
+</div>
+</body>
+</html>

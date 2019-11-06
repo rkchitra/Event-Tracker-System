@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Display</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  
+  <style type="text/css">
+    #hh2{
+      margin-left: 450px;
+    }
+    /* The alert message box */
+.alert {
+  padding: 20px;
+  background-color: #f44336;
+  color: white;
+  opacity: 1;
+  transition: opacity 0.6s;
+  margin-bottom: 15px;
+}
+
+.alert.success {background-color: #4CAF50;}
+.alert.info {background-color: #2196F3;}
+.alert.warning {background-color: #ff9800;}
+
+
+/* The close button */
+.closebtn {
+  margin-left: 15px;
+  color: white;
+  font-weight: bold;
+  float: right;
+  font-size: 22px;
+  line-height: 20px;
+  cursor: pointer;
+  transition: 0.3s;
+}
+
+/* When moving the mouse over the close button */
+.closebtn:hover {
+  color: black;
+}
+
+.form-check{
+
+	margin-left: 30px;
+}
+
+  </style>
+
+</head>
+<body>
+
+<nav class="navbar navbar-expand-lg navbar-light bg-light">
+  <a class="navbar-brand" href="#">Navbar</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavDropdown" aria-controls="navbarNavDropdown" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+  <div class="collapse navbar-collapse" id="navbarNavDropdown">
+    <ul class="navbar-nav">
+      <li class="nav-item active">
+        <a class="nav-link" href="#">Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Features</a>
+      </li>
+      <li class="nav-item">
+        <a class="nav-link" href="#">Pricing</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdownMenuLink" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Dropdown link
+        </a>
+        <div class="dropdown-menu" aria-labelledby="navbarDropdownMenuLink">
+          <a class="dropdown-item" href="#">Action</a>
+          <a class="dropdown-item" href="#">Another action</a>
+          <a class="dropdown-item" href="#">Something else here</a>
+        </div>
+      </li>
+    </ul>
+  </div>
+</nav>
+
+  <div class="alert info">
+  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
+  Note that all the big events are listed above all others. 
+</div>
+
+  <div class="container"><h2 align="centre" id="hh2">Upcoming Events</h2>
+  </div>
+
+  <p><b>Number of events being displayed currently: {{no[0][0]}}/{{tot[0][0]}}</b></p>
+
+
+  <script type="text/javascript">
+	function check_uncheck(){
+		var p="check2";
+		document.getElementById("check1").checked = false;
+		document.getElementById("check1").disabled = true;
+		if(document.getElementById("check2").checked==true && document.getElementById("check3").checked==true && document.getElementById("check4").checked==true && document.getElementById("check5").checked==true && document.getElementById("check6").checked==true
+		&& document.getElementById("check7").checked==true )
+		{
+			document.getElementById("check1").checked=true;
+			document.getElementById("check1").disabled =false;
+			document.getElementById(p).checked=false;
+			document.getElementById("check3").checked=false;
+			document.getElementById("check4").checked=false;
+			document.getElementById("check5").checked=false;
+			document.getElementById("check6").checked=false;
+			document.getElementById("check7").checked=false;
+
+		}
+	}
+	function check_for_check1(){
+		document.getElementById("check1").checked = true;
+		alert("All events are already being displayed");
+	}
+
+	function filter_disp(){
+
+
+	}
+
+</script>
+
+
+	<p><b>Filter events</b></p>
+  <form method='POST'>
+	<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="All" id="check1" checked="" onclick="check_for_check1()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck1">
+    All
+  </label>
+</div>
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="IEEE" id="check2" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    IEEE
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="Onyx" id="check3" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    Onyx
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="Force Ikshvaku" id="check4" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    Force Ikshvaku
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="ISSA" id="check5" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    ISSA
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="UCSP" id="check6" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    UCSP
+  </label>
+</div>
+
+<div class="form-check">
+  <input class="form-check-input" type="checkbox" value="NIE" id="check7" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    NIE
+  </label>
+</div>
+<div class="form-check">
+  <button type="submit" class="btn btn-sm btn-success">Display</button>
+</div>
+</form>
+	
+
+
+
+  <div class="table-responsive">
+  <table id="tab1" class="table table-bordered table-striped">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Conducted By</th>
+      <th scope="col">Event Name</th>
+      <th scope="col">Event Description</th>
+      <th scope="col">Seats Left</th>
+      <th scope="col">Date</th>
+      <th scope="col">Time</th>
+      <th scope="col">Venue</th>
+      <th scope="col">Big event</th>
+      <th scope="col">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+
+        {% for row in ev %} 
+            <tr id="tab2">
+                {% if row[0]=='Onyx' %}
+                <th><a href="{{url_for('Onyx')}}">{{row[0]}}</a></th>
+                {% else %}
+                <th><a href="#">{{row[0]}}</a></th>
+                {% endif %}
+                <td>{{row[1]}}</td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td>{{row[5]}}</td>
+                <td>{{row[6]}}</td>
+                <td>{{row[7]}}</td>
+                {% if row[3]==0 %}
+                <td>N/A</td>
+                {% else %}
+                <td><a href="{{url_for('reg',e__name=row[1])}}">Register</a></td>
+                {% endif %}
+
+                
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+</body>
+</html>
