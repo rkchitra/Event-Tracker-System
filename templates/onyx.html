@@ -26,28 +26,13 @@
 			<div class="logo"><a href="#">Hey there!</a></div>
 			<div class="ml-auto d-flex flex-row align-items-center justify-content-start">
 				
-				<div class="book_button"><a href="{{url_for('home')}}}">HOME</a></div>
-				<div class="book_button" ><a href="#" onclick="notif()" id="notify">Notify Me!</a></div>
-				<script type="text/javascript">
-					var x=0;
-					function notif(){
-						if(x%2==0)
-						{
-							document.getElementById("notify").innerHTML="Unsubscribe";
+				<div class="book_button"><a href="{{url_for('red_home')}}">HOME</a></div>
 
-						}
-						else{
-
-							document.getElementById("notify").innerHTML="Notify Me!";
-
-						}
-						x=x+1;
-
-
-					}
-
-				</script>
-				
+				{% if subs=='true' %}
+				<div class="book_button" ><a href="{{url_for('notif2',subs='unsubs',clubname='Onyx')}}" id="notify">Unsubscribe</a></div>
+				{% else  %}
+				<div class="book_button" ><a href="{{url_for('notif2',subs='subs',clubname='Onyx')}}" id="notify">Subscribe</a></div>
+				{% endif %}
 
 				<!-- Hamburger Menu -->
 				<div class="hamburger"><i class="fa fa-bars" aria-hidden="true"></i></div>
