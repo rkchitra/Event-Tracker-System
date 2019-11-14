@@ -3,6 +3,7 @@
   <head>
     <title>Student Info</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
       html, body {
@@ -187,6 +188,8 @@
   </head>
   <body>
 
+    
+
 
     <script type="text/javascript">
       function check_error(){
@@ -199,9 +202,11 @@
        }
 
       }
+
     </script>
 
     <script type="text/javascript">check_error();</script>
+
 
     <div class="testbox">
       <form method="post">
@@ -211,21 +216,21 @@
         <p>Student Information</p>
         <div class="item">
           <label for="name">Name<span>*</span></label>
-          <input id="name" type="text" name="name" required/>
+          <input id="name" type="text" name="name" value="{{details[0][0]}}" required/>
         </div>
         <div class="item">
           <label for="usn">Usn<span>*</span></label>
-          <input id="usn" type="text" name="usn" required/>
+          <input id="usn" type="text" name="usn" value="{{details[0][2]}}" required/>
         </div>
         <div class="item">
           <label for="email">Email Address<span>*</span></label>
-          <input id="email" type="email" name="email" required/>
+          <input id="email" type="email" name="email" value="{{details[0][1]}}" required/>
         </div>
         
         
         <div class="item">
           <label for="phone">Phone<span>*</span></label>
-          <input id="phone" type="tel" name="phone" pattern="[0-9]{10}" required/>
+          <input id="phone" type="tel" name="phone" pattern="[0-9]{10}" value="{{details[0][3]}}" required/>
         </div>
         
         <div class="question">
