@@ -3,9 +3,23 @@
 from flask import Flask,render_template,request,url_for,flash,session,redirect
 from flask_mysqldb import MySQL
 import os
+from flask_jsglue import JSGlue
+from flask_mail import Mail, Message
 
 app=Flask(__name__)
+jsglue = JSGlue(app)
+mail=Mail(app)
 
+#configure mail details
+app.config['MAIL_SERVER']='smtp.gmail.com'
+app.config['MAIL_PORT'] = 465
+app.config['MAIL_USERNAME'] = 'acs.nie1234@gmail.com'
+app.config['MAIL_PASSWORD'] = 'nieevent'
+app.config['MAIL_USE_TLS'] = False
+app.config['MAIL_USE_SSL'] = True
+mail = Mail(app)
+
+global em
 
 #configure db
 app.config['MYSQL_HOST']='localhost'
@@ -16,16 +30,25 @@ app.secret_key = os.urandom(24)
 
 mysql=MySQL(app)
 
+@app.route('/hello/<nm>',methods=['GET','POST'])
+def hello(nm):
+	para="chits"
+	return render_template('demo3.html',nm=nm)
+
 
 #Sign-Up Page
 @app.route('/',methods=['GET','POST'])
 
 def index():
+	if 'email' in session :
+		return redirect(url_for('red_home'))
 	if request.method=='POST':
 		#fetch form data
 		user=request.form 
 		name=user['name']
 		email=user['email']
+		usn = user['usn']
+		pno = user['pno']
 		passwd=user['passwd']
 		passwd2=user['passwd2']
 		cur=mysql.connection.cursor()
@@ -35,10 +58,13 @@ def index():
 		if(passwd!=passwd2):
 			return render_template('sign_up.html', mesg="Passwords don't match!",mesg2="")
 		else:	                                                                                                      
-			cur.execute("INSERT INTO login(name,email,passwd) values(%s,%s,%s)",(name,email,passwd))
+			cur.execute("INSERT INTO login(name,email,usn,pno,passwd) values(%s,%s,%s,%s,%s)",(name,email,usn,pno,passwd))
 			mysql.connection.commit()
 			cur.close()
-			return render_template('success.html')
+			session['email']=email
+			session['eh']='N'
+			em=email
+			return redirect(url_for('home'))
 	return render_template('sign_up.html', mesg="",mesg2="")
 
 
@@ -48,22 +74,19 @@ def index():
 def home():
 	if 'email' not in session :
 		return redirect(url_for('index2'))
-	if request.method=='POST' :
-		session.pop('email',None)
-		return '<h1>Logged Out </h1>'
-	return render_template('home.html')
+	return render_template('home.html',eh=session['eh'])
 
 
 #Login Page
 @app.route('/login',methods=['GET','POST'])
 
 def index2():
-	
-	session.pop('email',None)
+	if 'email' in session :
+		session.pop('email',None)
+		session.pop('eh',None)
 	if request.method=='POST' :
 		#fetch login details
 		user2=request.form
-		global em
 		em=user2['email']
 		passwdd=user2['passwd']
 		cur=mysql.connection.cursor()
@@ -77,8 +100,10 @@ def index2():
 				p2=cur.fetchone()
 				session['email']=em
 				if(p2[0]=='N'):
+					session['eh']='N'
 					return redirect(url_for('home'))
 				else :
+					session['eh']='Y'
 					return redirect(url_for('homee'))
 		else :
 			return render_template('login.html',mesg="Invalid credentials entered")	
@@ -87,12 +112,48 @@ def index2():
 	return render_template('login.html',mesg="")
 
 
+@app.route('/red_home')
+
+def red_home():
+	if session['eh']=='N' :
+		return redirect(url_for('home'))
+	
+	return redirect(url_for('homee'))
+
+
 #On clicking the logout button, session is terminated
 @app.route('/logout')
 
 def logout():
 	session.pop('email',None)
+	session.pop('eh',None)
 	return redirect(url_for('index2'))
+
+#on successfully signing up	
+@app.route('/success')
+
+def success():
+	return render_template('success.html')
+
+def notif_check(club_name) :
+	cursor=mysql.connection.cursor()
+	count=cursor.execute("SELECT * from notify where email=%s and cname=%s",(session['email'],club_name,))
+	cursor.close()
+	if count == 0 :
+		return -1
+	return 1
+@app.route('/notif2/<subs>/<clubname>',methods=['GET','POST'])
+def notif2(subs,clubname) :
+	cur=mysql.connection.cursor()
+	if subs == 'subs' :
+		cur.execute("INSERT into notify values (%s,%s)",(session['email'],clubname,))
+		mysql.connection.commit()
+	else :
+		cur.execute("DELETE from notify where email=%s and cname=%s",(session['email'],clubname,))
+		mysql.connection.commit()
+	cur.close()
+	return redirect(url_for(clubname))
+
 
 
 #onyx page
@@ -102,7 +163,10 @@ def Onyx():
 	if 'email' not in session :
 		return redirect(url_for('index2'))
 	else :
-		return render_template('onyx.html')
+		check=notif_check("Onyx")
+		if check == 1 :
+			return render_template('onyx.html',subs="true")
+		return render_template('onyx.html',subs="false")
 
 #list of upcoming events 
 @app.route('/events',methods=['GET','POST'])
@@ -238,6 +302,10 @@ def pevents():
 @app.route('/reg/<e__name>',methods=['GET','POST'])
 
 def reg(e__name):
+	cur2=mysql.connection.cursor()
+	cur2.execute("SELECT * from details where email=%s",(session['email'],))
+	dets = cur2.fetchall()
+	cur2.close()
 
 	if request.method=='POST' :
 		events1=request.form
@@ -251,23 +319,37 @@ def reg(e__name):
 		cur.execute("SELECT * from reg where ename=%s and usn=%s",(eve_name,usn))
 		temp=cur.fetchall()
 		if temp :
-
-			return render_template('reg.html',e_name=e__name,check=int(-1))
+			flash("You've already registered for this event")
+			return redirect(url_for('sevents'))
 		else :
+
 			cur.execute("INSERT into reg values(%s,%s,%s,%s,%s,%s)",(eve_name,sname,usn,email,ph,mem))
 			mysql.connection.commit()
+			flash("Registration for the event was successful")
+			return redirect(url_for('sevents'))
 		cur.close()
 
 		
 
-	return render_template('reg.html',e_name=e__name)
+	return render_template('reg.html',e_name=e__name,details=dets)
+
+#method to unregister from events
+@app.route('/unreg/<e__name>',methods=['GET','POST'])
+
+def unreg(e__name):
+	cur=mysql.connection.cursor()
+	cur.execute("call unregister(%s,%s)",(e__name,session['email'],))
+	mysql.connection.commit()
+	cur.close()
+	flash("Unregistered from the event")
+	return redirect(url_for('sevents'))
 
 
 #home page for event handlers with the option of creating events
 @app.route('/homee',methods=['GET','POST'])
 
 def homee():
-	if 'email' not in session :
+	if 'email' not in session or 'eh' not in session or session['eh']=='N' :
 		return redirect(url_for('index2'))
 	else :
 		return render_template('homee.html')
@@ -279,7 +361,7 @@ def homee():
 def sevents():
 	if 'email' not in session :
 		return redirect(url_for('index2'))
-	else :
+	elif session['eh'] == 'N' :
 		em=session['email']
 		cur=mysql.connection.cursor()
 		cur.execute("SELECT e.cname,r.ename,e.edescp,e.dt,e.big_event from reg r,events e where r.ename=e.ename and r.email=%s",(em,))
@@ -288,11 +370,13 @@ def sevents():
 		par2=cur.fetchall()
 		cur.close()
 		return render_template('sevents.html',ev=par,ev2=par2)
+	else :
+		return redirect(url_for('red_prof'))
 
 #creating an event page
 @app.route('/create',methods=['GET','POST'])
 def create():
-	if 'email' not in session :
+	if 'email' not in session or 'eh' not in session or session['eh']=='N' :
 		return redirect(url_for('index2'))
 	else :
 
@@ -307,14 +391,48 @@ def create():
 			tm=user['time']
 			op=user['options']
 			cur=mysql.connection.cursor()
-			cur.execute("SELECT name from login where email=%s",(em,))
+			cur.execute("SELECT name from login where email=%s",(session['email'],))
 			n2=cur.fetchone()
 			cur.execute("INSERT INTO events(cname,ename,edescp,seats,dt,tm,venue,big_event) values(%s,%s,%s,%s,%s,%s,%s,%s)",(n2[0],name,desc,seats,dt,tm,venn,op))
 			mysql.connection.commit()
 			cur.close()
-			return redirect(url_for('homee'))
+			send_mail(n2[0],name)
+			flash("Event was successfully created")
+			return redirect(url_for('events'))
 
 		return render_template('create.html')
+
+@app.route('/red_prof')
+def red_prof() :
+	if session['eh']=='N' :
+		return redirect(url_for('sevents'))
+	return redirect(url_for('homee'))
+
+@app.route('/test')
+def test():
+	clubname="Onyx"
+	cur=mysql.connection.cursor()
+	cur.execute("SELECT email from notify where cname=%s",(clubname,))
+	recps=cur.fetchall()
+	l1=[]
+	for val in recps :
+		l1.append(val[0])
+	cur.close()
+	return render_template('sample.html',lists=l1)
+
+
+def send_mail(clubname,eventname):
+	cur=mysql.connection.cursor()
+	cur.execute("SELECT email from notify where cname=%s",(clubname,))
+	recps=cur.fetchall()
+	l1=[]
+	for val in recps :
+		l1.append(val[0])
+	msg = Message('Event Notification', sender = 'acs.nie1234@gmail.com', recipients = l1)
+	msg.body = ("Hello, this is to notify you that "+ clubname + " has a recently added upcoming event titled: "+ eventname +". Please do check it out.")
+	mail.send(msg)
+	cur.close()
+
 if __name__=='__main__':
 
 	app.run(debug=True)
