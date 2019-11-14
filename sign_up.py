@@ -94,12 +94,6 @@ def logout():
 	session.pop('email',None)
 	return redirect(url_for('index2'))
 
-#on successfully signing up	
-@app.route('/success')
-
-def success():
-	return render_template('success.html')
-
 
 #onyx page
 @app.route('/onyx',methods=['GET','POST'])
