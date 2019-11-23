@@ -14,6 +14,8 @@
 <link href="{{url_for('static',filename='plugins/jquery-datepicker/jquery-ui.css')}}" rel="stylesheet" type="text/css">
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/booking.css')}}">
 <link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/booking_responsive.css')}}">
+<link href="https://fonts.googleapis.com/css?family=PT+Serif|Roboto&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css?family=Cabin+Condensed&display=swap" rel="stylesheet">
 </head>
 <body>
 
@@ -76,6 +78,49 @@
 		</div>
 	</div>
 
+	<div class="container"><h2 align="centre" id="hh2" style="font-family: 'Cabin Condensed', sans-serif; margin-top: 20px;margin-left: 400px;">Upcoming Events</h2>
+	<div class="table-responsive">
+  <table id="tab1" class="table table-bordered table-striped" style="font-family: 'PT Serif', serif; color: black;font-size: 15px;">
+  <thead class="thead-dark">
+    <tr>
+      <th scope="col">Event Name</th>
+      <th scope="col">Event Description</th>
+      <th scope="col">Seats Left</th>
+      <th scope="col" style="width: 110px;">Date</th>
+      <th scope="col">Time</th>
+      <th scope="col">Venue</th>
+      <th scope="col">Big event</th>
+      <th scope="col">Link</th>
+    </tr>
+  </thead>
+  <tbody>
+
+
+
+        {% for row in ev %} 
+            <tr id="tab2">
+                <td><b>{{row[1]}}</b></td>
+                <td>{{row[2]}}</td>
+                <td>{{row[3]}}</td>
+                <td>{{row[4]}}</td>
+                <td>{{row[5]}}</td>
+                <td>{{row[6]}}</td>
+                <td>{{row[7]}}</td>
+                {% if row[3]==0 %}
+                <td>N/A</td>
+                {% else %}
+                <td><a href="{{url_for('reg',e__name=row[1])}}">Register</a></td>
+                {% endif %}
+
+                
+            </tr>
+        {% endfor %}
+  </tbody>
+</table>
+</div>
+	
+
+
 	<!-- Details Right -->
 	<div class="details">
 		<div class="container">
@@ -84,81 +129,16 @@
 				
 
 				<!-- Details Content -->
-				<div class="col-xl-5 col-lg-6">
-					<div class="details_content">
-						<div class="details_title">About</div>
-						<div class="details_list">
-							<p>Onyx is the Entrepreneurship cell of one of the most premier institutes in India, The National Institute of Engineering Mysuru. It was started by a group of enthusiastic final year students in 2009 and has become one of the model E-cells in India. Onyx aims at developing entrepreneurial attitude in the minds of students through hands-on workshops, seminars, activities, festivals and events. It is also a member of the National Entrepreneurship Network (NEN). It has grown in leaps and bounds since its inception Onyx is a recipient of various major awards like NEN E-WEEK Championship, Nilma Rovshen Creativity Award, Best Public awareness award.  Onyx is a 3 time back-to-back winner of NEN E-WEEK CHAMPIONSHIPS. In the years to come,Onyx hopes to create a new league of entrepreneurs and make our country proud.</p>
-
-						</div>
-						
-						
-					</div>
+				<div class="details_title" style="margin-top: 30px;">About</div>
+				<div>
+					<p>Onyx is the Entrepreneurship cell of one of the most premier institutes in India, The National Institute of Engineering Mysuru. It was started by a group of enthusiastic final year students in 2009 and has become one of the model E-cells in India. Onyx aims at developing entrepreneurial attitude in the minds of students through hands-on workshops, seminars, activities, festivals and events. It is also a member of the National Entrepreneurship Network (NEN). It has grown in leaps and bounds since its inception Onyx is a recipient of various major awards like NEN E-WEEK Championship, Nilma Rovshen Creativity Award, Best Public awareness award.  Onyx is a 3 time back-to-back winner of NEN E-WEEK CHAMPIONSHIPS. In the years to come,Onyx hopes to create a new league of entrepreneurs and make our country proud.</p>
 				</div>
 
-			</div>
-		</div>
-	</div>
-
-	<!-- Booking -->
-
-	<div class="booking">
-		<div class="container">
-			<div class="row">
-				<div class="col">
-
-					<!-- Booking Slider -->
-					<div class="booking_slider_container">
-						<div class="owl-carousel owl-theme booking_slider">
-							
-							<!-- Slide -->
-							<div class="booking_item">
-								<div class="background_image" style="background-image:url(images/booking_1.jpg)"></div>
-								<div class="booking_overlay trans_200"></div>
-								<div class="booking_item_content">
-									<div class="booking_item_list">
-										
-									</div>
-								</div>
-								<div class="booking_price">EVENT NAME</div>
-								<div class="booking_link"><a href="booking.html">REGISTER</a></div>
-							</div>
-
-							<!-- Slide -->
-							<div class="booking_item">
-								<div class="background_image" style="background-image:url(images/booking_2.jpg)"></div>
-								<div class="booking_overlay trans_200"></div>
-								<div class="booking_item_content">
-									<div class="booking_item_list">
-										
-									</div>
-								</div>
-								<div class="booking_price">EVENT NAME</div>
-								<div class="booking_link"><a href="booking.html">REGISTER</a></div>
-							</div>
-
-							<!-- Slide -->
-							<div class="booking_item">
-								<div class="background_image" style="background-image:url(images/booking_3.jpg)"></div>
-								<div class="booking_overlay trans_200"></div>
-								<div class="booking_item_content">
-									<div class="booking_item_list">
-										
-									</div>
-								</div>
-								<div class="booking_price">EVENT NAME</div>
-								<div class="booking_link"><a href="booking.html">REGISTER</a></div>
-							</div>
-
-						</div>
-					</div>
-				</div>
 			</div>
 		</div>
 	</div>
 
 	
-
 	
 
 
@@ -188,6 +168,8 @@
 							</ul>
 						</div>
 					</div>
+
+	
 
 					<!-- Reservations -->
 					<div class="col-lg-3">
