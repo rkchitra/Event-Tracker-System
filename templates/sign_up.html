@@ -1,3 +1,5 @@
+
+<!-- Sign-Up page for account creation -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -12,8 +14,12 @@
 <style type="text/css">
 	body{
 		color: #fff;
-		background: #3598dc;
 		font-family: 'Roboto', sans-serif;
+	}
+	.navbar{
+		position: fixed;
+		top: 0;
+		width: 100%;
 	}
     .form-control{
 		height: 41px;
@@ -30,13 +36,14 @@
 	.signup-form{
 		width: 390px;
 		margin: 30px auto;
+		margin-top: 80px;
 	}
 	.signup-form form{
 		color: #999;
 		border-radius: 3px;
     	margin-bottom: 15px;
         background: #fff;
-        box-shadow: 0px 2px 2px rgba(0, 0, 0, 0.3);
+        box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.3);
         padding: 30px;
     }
 	.signup-form h2 {
@@ -66,6 +73,7 @@
 		background: #3598dc;
 		border: none;
 		min-width: 140px;
+		margin-left: 90px;
     }
 	.signup-form .btn:hover, .signup-form .btn:focus{
 		background: #2389cd !important;
@@ -92,6 +100,25 @@
 </style>
 </head>
 <body>
+
+
+	<!--NAVBAR-->
+		<nav class="navbar navbar-inverse">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <a class="navbar-brand" href="#">Event Tracker</a>
+    </div>
+   
+    <div class="container">
+    <ul class="nav navbar-nav navbar-right" id="navvv">
+      <li class="active"><a href="{{ url_for('index') }}"><span class="glyphicon glyphicon-user"></span> Sign Up</a></li>
+      <li><a href="{{url_for('index2')}}"><span class="glyphicon glyphicon-log-in"></span> Login</a></li>
+    </ul>
+	</div>
+  </div>
+</nav>
+
+
 <div class="signup-form">
     <form action="" method="post">
 		<h2>Sign Up</h2>
@@ -102,6 +129,14 @@
         </div>
         <div class="form-group">
         	<input type="email" class="form-control" name="email" placeholder="Email" required="required">
+        	<p></p><p class="text-danger">{{ mesg2 }}</p>
+        </div>
+        <div class="form-group">
+        	<input type="text" class="form-control" name="usn" placeholder="USN" required="required">
+        	<p></p><p class="text-danger">{{ mesg3 }}</p>
+        </div>
+        <div class="form-group">
+        	<input type="number" class="form-control" name="pno" placeholder="Phone number" required="required">
         </div>
 		<div class="form-group">
             <input type="password" class="form-control" name="passwd" placeholder="Password" required="required">
@@ -118,8 +153,9 @@
 		<div class="form-group">
             <button type="submit" class="btn btn-primary btn-lg">Sign Up</button>
         </div>
+        <div class="hint-text">Already have an account? <a href="{{url_for('index2')}}">Login here</a></div>
     </form>
-	<div class="hint-text">Already have an account? <a href="{{url_for('index2')}}">Login here</a></div>
+	
 </div>
 </body>
 </html>                            

@@ -3,6 +3,7 @@
 <head>
   <title>Display</title>
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+   <link href="https://fonts.googleapis.com/css?family=PT+Serif|Roboto+Slab&display=swap" rel="stylesheet">
   <style type="text/css">
     #hh2{
       margin-left: 450px;
@@ -41,29 +42,71 @@
 
 .form-check{
 
-  margin-left: 30px;
+  margin-left: 5px;
+}
+#logs2{
+  color: white;
+  text-decoration: none;
+}
+#prof1{
+  color: white;
 }
 
   </style>
 
 </head>
 <body>
-  <div class="alert info">
-  <span class="closebtn" onclick="this.parentElement.style.display='none';">&times;</span>
-  Note that all the big events are listed above all others. 
-</div>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
 
-  <div class="container"><h2 align="centre" id="hh2">Earlier Events</h2>
+ 
+
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Event Tracker</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('red_home')}}" >Home</a>
+      </li>
+      <li class="nav-item dropdown active">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Events
+        </a>
+        <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item bg-dark" href="{{url_for('events')}}" style="color: white;">Upcoming</a>
+          <a class="dropdown-item active" href="{{url_for('pevents')}}">Earlier</a>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <div class="dropdown">
+        <a class="nav-link dropdown-toggle text-secondary" href="#" id="logs2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          My Profile
+        </a>
+        <div class="dropdown-menu dropdown-menu-bottom bg-dark">
+          <a class="dropdown-item bg-dark" href="{{url_for('sevents')}}" style="color: white;">My Events</a>
+          <a class="dropdown-item bg-dark" href="{{url_for('settings')}}" style="color: white;">Settings</a>
+        </div>
+      </div>
+      <button class="btn btn-info my-2 my-sm-0" type="submit"><a id="logs2" href="{{url_for('logout')}}">Logout</a></button>
+    </form>
+  </div>
+</nav>
+
+  <div class="container"><h2 align="centre" id="hh2" style="font-family: 'Roboto Slab', serif;margin-top: 20px;">Earlier Events</h2>
   </div>
 
-  <p><b>Number of events being displayed currently: {{no[0][0]}}/{{tot[0][0]}}</b></p>
 
 
   <script type="text/javascript">
   function check_uncheck(){
     var p="check2";
     document.getElementById("check1").checked = false;
-    document.getElementById("check1").disabled = true;
     if(document.getElementById("check2").checked==true && document.getElementById("check3").checked==true && document.getElementById("check4").checked==true && document.getElementById("check5").checked==true && document.getElementById("check6").checked==true
     && document.getElementById("check7").checked==true )
     {
@@ -79,8 +122,13 @@
     }
   }
   function check_for_check1(){
-    document.getElementById("check1").checked = true;
-    alert("All events are already being displayed");
+    document.getElementById("check1").checked=true;
+      document.getElementById("check2").checked=false;
+      document.getElementById("check3").checked=false;
+      document.getElementById("check4").checked=false;
+      document.getElementById("check5").checked=false;
+      document.getElementById("check6").checked=false;
+      document.getElementById("check7").checked=false;
   }
 
   function filter_disp(){
@@ -91,73 +139,125 @@
 </script>
 
 
-  <p><b>Filter events</b></p>
+  <div style="width: 100%">
+    <div style="float: left;width: 15%;margin-top: 100px; margin-left: 0px;font-family: 'Roboto Slab', serif">
+  <p style="font-family: 'Roboto Slab';margin-bottom: 5px; margin-left: 0px;"><b>Filter events</b></p>
   <form method='POST'>
   <div class="form-check">
+    {% if 'All' in list1  %}
   <input class="form-check-input" type="checkbox" value="All" id="check1" checked="" onclick="check_for_check1()" name="filter_system">
   <label class="form-check-label" for="defaultCheck1">
     All
   </label>
+  {% else %}
+  <input class="form-check-input" type="checkbox" value="All" id="check1" onclick="check_for_check1()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck1">
+    All
+  </label>
+  {% endif %}
+
 </div>
 <div class="form-check">
+  {% if 'IEEE' in list1 %}
+  <input class="form-check-input" type="checkbox" value="IEEE" id="check2" checked="" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    IEEE
+  </label>
+  {% else %}
   <input class="form-check-input" type="checkbox" value="IEEE" id="check2" onclick="check_uncheck()" name="filter_system">
   <label class="form-check-label" for="defaultCheck2">
     IEEE
   </label>
+  {% endif %}
 </div>
 
 <div class="form-check">
+  {% if 'Onyx' in list1 %}
+  <input class="form-check-input" type="checkbox" value="Onyx" id="check3" checked="" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    Onyx
+  </label>
+  {% else %}
   <input class="form-check-input" type="checkbox" value="Onyx" id="check3" onclick="check_uncheck()" name="filter_system">
   <label class="form-check-label" for="defaultCheck2">
     Onyx
   </label>
+  {% endif %}
 </div>
 
 <div class="form-check">
+  {% if 'Force Ikshvaku' in list1 %}
+  <input class="form-check-input" type="checkbox" value="Force Ikshvaku" id="check4" checked="" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    Force Ikshvaku
+  </label>
+  {% else %}
   <input class="form-check-input" type="checkbox" value="Force Ikshvaku" id="check4" onclick="check_uncheck()" name="filter_system">
   <label class="form-check-label" for="defaultCheck2">
     Force Ikshvaku
   </label>
+  {% endif %}
 </div>
 
 <div class="form-check">
+  {% if 'ISSA' in list1 %}
+  <input class="form-check-input" type="checkbox" value="ISSA" id="check5" checked="" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    ISSA
+  </label>
+  {% else %}
   <input class="form-check-input" type="checkbox" value="ISSA" id="check5" onclick="check_uncheck()" name="filter_system">
   <label class="form-check-label" for="defaultCheck2">
     ISSA
   </label>
+  {% endif %}
 </div>
 
 <div class="form-check">
-  <input class="form-check-input" type="checkbox" value="UCSP" id="check6" onclick="check_uncheck()" name="filter_system">
+  {% if 'UCSP' in list1 %}
+  <input class="form-check-input" type="checkbox" value="UCSP" id="check6" checked="" onclick="check_uncheck()" name="filter_system">
   <label class="form-check-label" for="defaultCheck2">
     UCSP
   </label>
+  {% else %}
+   <input class="form-check-input" type="checkbox" value="UCSP" id="check6" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    UCSP
+  </label>
+  {% endif %}
 </div>
 
 <div class="form-check">
+  {% if 'NIE' in list1 %}
   <input class="form-check-input" type="checkbox" value="NIE" id="check7" onclick="check_uncheck()" name="filter_system">
   <label class="form-check-label" for="defaultCheck2">
     NIE
   </label>
+  {% else %}
+  <input class="form-check-input" type="checkbox" value="NIE" id="check7" onclick="check_uncheck()" name="filter_system">
+  <label class="form-check-label" for="defaultCheck2">
+    NIE
+  </label>
+  {% endif %}
 </div>
-<div class="form-check">
-  <button type="submit" class="btn btn-sm btn-success">Display</button>
+<div style="margin-left: 5px; margin-top: 3px;">
+  <button type="submit" class="btn btn-info  my-sm-0">Display</button>
 </div>
 </form>
-  
+  </div>
 
 
 
-  <div class="table-responsive">
-  <table id="tab1" class="table table-bordered table-striped">
+  <div class="table-responsive" style="width: 80%">
+  <table id="tab1" class="table table-bordered table-striped" style="font-family: 'PT Serif', serif;caption-side: top;">
+    <caption><b>Number of events being displayed currently: {{no[0][0]}}/{{tot[0][0]}}</b></caption>
   <thead class="thead-dark">
     <tr>
       <th scope="col">Conducted By</th>
       <th scope="col">Event Name</th>
       <th scope="col">Event Description</th>
-      <th scope="col">Date</th>
+      <th scope="col" style="width: 110px;">Date</th>
       <th scope="col">Big event</th>
-      <th scope="col">Feedback </th>
     </tr>
   </thead>
   <tbody>
@@ -168,20 +268,29 @@
             <tr id="tab2">
                 {% if row[0]=='Onyx' %}
                 <th><a href="{{url_for('Onyx')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'IEEE' %}
+                <th><a href="{{url_for('IEEE')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'Force Ikshvaku' %}
+                <th><a href="{{url_for('force_i')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'ISSA' %}
+                <th><a href="{{url_for('ISSA')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'UCSP' %}
+                <th><a href="{{url_for('UCSP')}}">{{row[0]}}</a></th>
+
                 {% else %}
                 <th><a href="#">{{row[0]}}</a></th>
                 {% endif %}
-                <td>{{row[1]}}</td>
+                <td><b>{{row[1]}}</b></td>
                 <td>{{row[2]}}</td>
                 <td>{{row[3]}}</td>
                 <td>{{row[4]}}</td>
-                <td><a href="#">Feedback</a></td>
 
                 
             </tr>
         {% endfor %}
   </tbody>
 </table>
+</div>
 </div>
 </body>
 </html>

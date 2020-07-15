@@ -1,8 +1,9 @@
 <!DOCTYPE html>
 <html>
   <head>
-    <title>Student Info</title>
+    <title>Create an event</title>
     <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.5.0/css/all.css" integrity="sha384-B4dIYHKNBt8Bc12p+WXckhzcICo0wtJAoU8YZTY5qE0Id1GSseTk6S+L3BlXeVIU" crossorigin="anonymous">
     <style>
       html, body {
@@ -39,7 +40,7 @@
       background: #fff;
       box-shadow: 0 0 8px  #cc7a00; 
       }
-      .banner {
+      /* .banner {
       position: relative;
       height: 300px;
       background-size: 100% 100%;
@@ -48,6 +49,16 @@
       align-items: center;
       color: black;
       text-align: center;
+      }
+      */
+      .banner{
+        position: relative;
+        display: flex;
+        height: 100px;
+        background-color: #cc7a00;
+        justify-content: center;
+        align-content: center;
+        color: #fff;
       }
       .banner::after {
       content: "";
@@ -189,28 +200,110 @@
       }
       }
 
-      #descp{
-        height: 150px;
-      }
       #heading{
         color: black;
       }
+
+      #hh2{
+      margin-left: 450px;
+    }
+
+    .tab_all{
+      width: 1000px;
+      margin-left: 150px;
+    }
+    #prof1{
+      color: white;
+    }
+    #logs2{
+      color: white;
+      text-decoration: none;
+    }
+  
+    .alert{
+      margin-left: 350px;
+      width: 500px;
+      margin-top: 5px;
+      border-radius: 12px;
+    }
     </style>
   </head>
   <body>
+    <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+    <!-- Navbar -->
+     <nav class="navbar navbar-expand-md navbar-dark bg-dark" style="height: 62px;">
+  <a class="navbar-brand" href="#">Event Tracker</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('red_home')}}" style="font-size: 17px;" >Home <span class="sr-only">(current)</span></a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 17px;">
+          Events
+        </a>
+        <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item bg-dark" href="{{url_for('events')}}" style="color: white;">Upcoming</a>
+          <a class="dropdown-item bg-dark" href="{{url_for('pevents')}}" style="color: white;">Earlier</a>
+        </div>
+      </li>
+      <li class="dropdown" style="margin-top: 0px;">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Clubs
+        </a>
+
+    <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton" style="background: black;">
+    <a class="dropdown-item bg-dark" href="{{url_for('Onyx')}}" style="color:white;" >Onyx</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('IEEE')}}" style="color:white;">IEEE</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('ISSA')}}" style="color:white;">ISSA</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('UCSP')}}" style="color:white;">UCSP</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('force_i')}}" style="color: white;">Force Ikshavaku</a>
+  </div>
+</li>
+    </ul>
+     <ul class="navbar-right" style="margin-top: 8px;">
+    <li class="form-inline">
+
+
+      <div class="dropdown">
+        <a class="nav-link dropdown-toggle text-secondary" href="#" id="logs2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" style="font-size: 17px;">
+          My Profile
+        </a>
+        <div class="dropdown-menu dropdown-menu-bottom bg-dark">
+          <a class="dropdown-item bg-dark" href="{{url_for('sevents')}}" style="color: white;">My Events</a>
+          <a class="dropdown-item bg-dark" href="{{url_for('settings')}}" style="color: white;">Settings</a>
+        </div>
+      </div>
+      <button class="btn btn-info btn-md" type="submit" style="width: 70px;"><a id="logs2" href="{{url_for('logout')}}">Logout</a></button>
+    </form>
+  </div>
+</li>
+</ul>
+</nav>
+
+
+
     <div class="testbox">
-      <form method="post">
+      <form method="post" autocomplete="off">
         <div class="banner">
-         <h1 id="heading">CREATE AN EVENT</h1>
+          <!--<button type="button" style="background:  #cc7a00;">CREATE AN EVENT</button>-->
+         <h1 id="heading" style="margin-top: 5px; color: white;">CREATE AN EVENT</h1> 
         </div>
         <p><h3>Event Information</h3></p>
         <div class="item">
           <label for="name">Event Name<span>*</span></label>
-          <input id="name" type="text" name="ename" required/>
+          <input id="name" type="text" name="ename" rows="1" required/>
         </div>
         <div class="item">
           <label for="descp">Description<span>*</span></label>
-          <input id="descp" type="textarea" name="edesc" required/>
+          <textarea id="descp" type="textarea" name="edesc" rows="5" required> </textarea>
         </div>
         <div class="item">
           <label for="email">Seats<span>*</span></label>
@@ -246,8 +339,8 @@
         </div>
         
         
-        <div class="btn-success">
-          <button type="submit" class="btn btn-success">SUBMIT</button>
+        <div class="btn-block">
+          <button type="submit">SUBMIT</button>
         </div>
       </form>
     </div>

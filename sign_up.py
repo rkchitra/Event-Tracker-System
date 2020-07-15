@@ -24,16 +24,11 @@ global em
 #configure db
 app.config['MYSQL_HOST']='localhost'
 app.config['MYSQL_USER']='root'
-app.config['MYSQL_PASSWORD']='thebasicbenzene31'
+app.config['MYSQL_PASSWORD']='xyz'
 app.config['MYSQL_DB']='project'
 app.secret_key = os.urandom(24)
 
 mysql=MySQL(app)
-
-@app.route('/hello/<nm>',methods=['GET','POST'])
-def hello(nm):
-	para="chits"
-	return render_template('demo3.html',nm=nm)
 
 
 #Sign-Up Page
@@ -52,9 +47,9 @@ def index():
 		passwd=user['passwd']
 		passwd2=user['passwd2']
 		cur=mysql.connection.cursor()
-		temp=cur.execute("SELECT email from login where email=%s",(email,))
+		temp=cur.execute("SELECT email from login where email=%s or usn=%s",(email,usn,))
 		if(temp>0) :
-			return render_template('sign_up.html',mesg="",mesg2="Already exists")
+			return render_template('sign_up.html',mesg="This USN or email is already registered.",mesg2="")
 		if(passwd!=passwd2):
 			return render_template('sign_up.html', mesg="Passwords don't match!",mesg2="")
 		else:	                                                                                                      
@@ -115,6 +110,8 @@ def index2():
 @app.route('/red_home')
 
 def red_home():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
 	if session['eh']=='N' :
 		return redirect(url_for('home'))
 	
@@ -128,12 +125,6 @@ def logout():
 	session.pop('email',None)
 	session.pop('eh',None)
 	return redirect(url_for('index2'))
-
-#on successfully signing up	
-@app.route('/success')
-
-def success():
-	return render_template('success.html')
 
 def notif_check(club_name) :
 	cursor=mysql.connection.cursor()
@@ -152,25 +143,91 @@ def notif2(subs,clubname) :
 		cur.execute("DELETE from notify where email=%s and cname=%s",(session['email'],clubname,))
 		mysql.connection.commit()
 	cur.close()
+	if clubname == 'Force Ikshvaku' :
+		return redirect(url_for('force_i'))
 	return redirect(url_for(clubname))
 
 
 
 #onyx page
-@app.route('/onyx',methods=['GET','POST'])
+@app.route('/Onyx',methods=['GET','POST'])
 
 def Onyx():
 	if 'email' not in session :
 		return redirect(url_for('index2'))
 	else :
-		check=notif_check("Onyx")
+		clubname='Onyx'
+		cur=mysql.connection.cursor()
+		cur.execute("SELECT * from events where cname=%s",(clubname,))
+		eves=cur.fetchall()
+		check=notif_check(clubname)
 		if check == 1 :
-			return render_template('onyx.html',subs="true")
-		return render_template('onyx.html',subs="false")
+			return render_template('onyx.html',subs="true",ev=eves)
+		return render_template('onyx.html',subs="false",ev=eves)
+
+#IEEE page
+@app.route('/IEEE',methods=['GET','POST'])
+def IEEE():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	else :
+		clubname='IEEE'
+		cur=mysql.connection.cursor()
+		cur.execute("SELECT * from events where cname=%s",(clubname,))
+		eves=cur.fetchall()
+		check=notif_check(clubname)
+		if check == 1 :
+			return render_template('ieee.html',subs="true",ev=eves)
+		return render_template('ieee.html',subs="false",ev=eves)
+
+#Force Ikshvaku Page
+@app.route('/force_i',methods=['GET','POST'])
+def force_i():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	else :
+		clubname='Force Ikshvaku'
+		cur=mysql.connection.cursor()
+		cur.execute("SELECT * from events where cname=%s",(clubname,))
+		eves=cur.fetchall()
+		check=notif_check(clubname)
+		if check == 1 :
+			return render_template('force_i.html',subs="true",ev=eves)
+		return render_template('force_i.html',subs="false",ev=eves)
+#ISSA Page
+@app.route('/ISSA',methods=['GET','POST'])
+def ISSA():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	else :
+		clubname='ISSA'
+		cur=mysql.connection.cursor()
+		cur.execute("SELECT * from events where cname=%s",(clubname,))
+		eves=cur.fetchall()
+		check=notif_check(clubname)
+		if check == 1 :
+			return render_template('issa.html',subs="true",ev=eves)
+		return render_template('issa.html',subs="false",ev=eves)
+#UCSP Page
+@app.route('/UCSP',methods=['GET','POST'])
+def UCSP():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	else :
+		clubname='UCSP'
+		cur=mysql.connection.cursor()
+		cur.execute("SELECT * from events where cname=%s",(clubname,))
+		eves=cur.fetchall()
+		check=notif_check(clubname)
+		if check == 1 :
+			return render_template('ucsp.html',subs="true",ev=eves)
+		return render_template('ucsp.html',subs="false",ev=eves)
 
 #list of upcoming events 
 @app.route('/events',methods=['GET','POST'])
 def events():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
 	cur2=mysql.connection.cursor()
 	cur2.execute("call update_events()") #calls procedure to ensure old events are deleted from this table and inserted into 'pevents'
 	mysql.connection.commit()
@@ -198,8 +255,8 @@ def events():
 		tuple(x2)
 
 		cur.close()
-		if val[0]=='All' :
-			return render_template('disp2.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2)
+		if len(val)==0 or val[0]=='All' :
+			return render_template('disp2.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2,list1=['All'])
 		else :		
 			l2=[]
 			str2=x2
@@ -212,7 +269,7 @@ def events():
 				tuple(l2)
 				tuple(x1)
 				#return render_template('sample.html',val1=cn)
-			return render_template('disp2.html',no=x1,ev=l2,index=indexing,max=no2,tot=no2)
+			return render_template('disp2.html',no=x1,ev=l2,index=indexing,max=no2,tot=no2,list1=val)
 		
 	else :
 		cur=mysql.connection.cursor()
@@ -232,13 +289,16 @@ def events():
 		tuple(x2)
 
 		cur.close()
-	return render_template('disp2.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2)
+	l1=['All']
+	return render_template('disp2.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2,list1=l1)
 
 
 #page that displays the previous events conducted in that academic year
 @app.route('/pevents',methods=['GET','POST'])
 
 def pevents():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
 	global indexing
 	indexing=int(0)
 	if request.method == 'POST' :
@@ -261,8 +321,8 @@ def pevents():
 		tuple(x2)
 
 		cur.close()
-		if val[0]=='All' :
-			return render_template('disp.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2)
+		if len(val) == 0 or val[0]=='All' :
+			return render_template('disp.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2,list1=val)
 		else :		
 			l2=[]
 			str2=x2
@@ -275,7 +335,7 @@ def pevents():
 				tuple(l2)
 				tuple(x1)
 				#return render_template('sample.html',val1=cn)
-			return render_template('disp.html',no=x1,ev=l2,index=indexing,max=no2,tot=no2)
+			return render_template('disp.html',no=x1,ev=l2,index=indexing,max=no2,tot=no2,list1=val)
 		
 	else :
 		cur=mysql.connection.cursor()
@@ -292,28 +352,41 @@ def pevents():
 		for i in cn2 :
 			x2.append(i)
 
-		tuple(x2
-)
+		tuple(x2)
 		cur.close()
-	return render_template('disp.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2)
+		l1=['All']
+	return render_template('disp.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2,list1=l1)
 
 
 #page to register for events
 @app.route('/reg/<e__name>',methods=['GET','POST'])
 
 def reg(e__name):
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	if session['eh'] == 'Y' :
+		return render_template('error.html')
 	cur2=mysql.connection.cursor()
+	chek = cur2.execute("SELECT * from events where ename=%s and seats>0",(e__name,))
+	if chek == 0:
+		return render_template('error.html')
 	cur2.execute("SELECT * from details where email=%s",(session['email'],))
 	dets = cur2.fetchall()
+	cur2.execute("SELECT * from reg where ename=%s and usn=%s",(e__name,dets[0][2]))
+	temp=cur2.fetchall()
 	cur2.close()
+	if temp :
+		flash("You've already registered for this event")
+		return redirect(url_for('sevents'))
+	
 
 	if request.method=='POST' :
 		events1=request.form
-		sname=events1['name']
-		usn=events1['usn']
-		email=events1['email']
+		sname=dets[0][0]
+		usn=dets[0][2]
+		email=dets[0][1]
 		mem=events1['member']
-		ph=events1['phone']
+		ph=dets[0][3]
 		cur=mysql.connection.cursor()
 		eve_name = e__name
 		cur.execute("SELECT * from reg where ename=%s and usn=%s",(eve_name,usn))
@@ -364,14 +437,16 @@ def sevents():
 	elif session['eh'] == 'N' :
 		em=session['email']
 		cur=mysql.connection.cursor()
-		cur.execute("SELECT e.cname,r.ename,e.edescp,e.dt,e.big_event from reg r,events e where r.ename=e.ename and r.email=%s",(em,))
+		cur.execute("SELECT e.cname,r.ename,e.edescp,e.dt,e.big_event from reg r,events e where r.ename=e.ename and r.email=%s ORDER BY e.dt",(em,))
 		par=cur.fetchall()
-		cur.execute("SELECT e.cname,r.ename,e.edescp,e.dt,e.big_event from reg r,pevents e where r.ename=e.ename and r.email=%s",(em,))
+		cur.execute("SELECT e.cname,r.ename,e.edescp,e.dt,e.big_event from reg r,pevents e where r.ename=e.ename and r.email=%s ORDER BY e.dt DESC",(em,))
 		par2=cur.fetchall()
+		cur.execute("SELECT event_num(%s)",(session['email'],))
+		eve_num=cur.fetchall()
 		cur.close()
-		return render_template('sevents.html',ev=par,ev2=par2)
+		return render_template('sevents.html',ev=par,ev2=par2,num_e=eve_num)
 	else :
-		return redirect(url_for('red_prof'))
+		return redirect(url_for('settings'))
 
 #creating an event page
 @app.route('/create',methods=['GET','POST'])
@@ -432,6 +507,65 @@ def send_mail(clubname,eventname):
 	msg.body = ("Hello, this is to notify you that "+ clubname + " has a recently added upcoming event titled: "+ eventname +". Please do check it out.")
 	mail.send(msg)
 	cur.close()
+
+@app.route('/edit',methods=['GET','POST'])
+def edit():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	cur2=mysql.connection.cursor()
+	cur2.execute("SELECT * from details where email=%s",(session['email'],))
+	dets = cur2.fetchall()
+	cur2.close()	
+	if request.method== 'POST' :
+		events1=request.form
+		sname=events1['name']
+		usn=events1['usn']
+		email1=events1['email']
+		ph=events1['pno']
+		cur=mysql.connection.cursor()
+		if email1!=session['email'] :  
+			c1=cur.execute("SELECT * from login where email=%s",(email1,))
+			c2=cur.execute("SELECT * from login where usn=%s",(usn,))
+			if c1 or c2 :
+				flash("Updates weren't saved as they already exist")
+				return redirect(url_for('sevents'))
+		cur.execute("UPDATE reg set sname=%s,usn=%s,ph=%s where email=%s",(sname,usn,ph,session['email']))
+		cur.execute("UPDATE login set name=%s,email=%s,usn=%s,pno=%s where email=%s ",(sname,email1,usn,ph,session['email'],))
+		session['email']=email1
+		mysql.connection.commit()
+		flash("Updates were saved successfully")
+		return redirect(url_for('sevents'))
+	return render_template('edit.html',details=dets)
+
+@app.route('/editp',methods=['GET','POST'])
+def editp():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+
+	if request.method == 'POST' :
+		cur=mysql.connection.cursor()
+		cur.execute("SELECT passwd from login where email=%s",(session['email'],))
+		passw=cur.fetchall()
+		dets=request.form
+		if dets['opass'] != passw[0][0] :
+			return render_template('editp.html',error1='Wrong Password')
+		elif dets['pass1'] != dets['pass2'] :
+			return render_template('editp.html',error2='Passwords don\'t match')
+		elif dets['pass1'] == dets['opass'] :
+			return render_template('editp.html',error2='Same as the previous password')
+		else :
+			cur.execute("UPDATE login set passwd=%s where email=%s",(dets['pass1'],session['email'],))
+			mysql.connection.commit()
+			cur.close()
+			flash("Password was successfully changed")
+			return redirect(url_for('sevents'))
+	return render_template('editp.html')
+
+@app.route('/settings',methods=['GET','POST'])
+def settings():
+	if 'email' not in session :
+		return redirect(url_for('index2'))
+	return render_template('settings.html')
 
 if __name__=='__main__':
 

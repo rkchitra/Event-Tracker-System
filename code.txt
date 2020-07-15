@@ -1,0 +1,6 @@
+ delimiter //
+mysql> create trigger update_subs
+    -> AFTER INSERT on events
+    -> FOR EACH ROW
+    -> INSERT into notifications(email,cname) (SELECT notify.email,events.ename from notify,events where notify.cname=events.cname);
+    -> //

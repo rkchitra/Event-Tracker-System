@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>User Details</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+
+  
+  <style type="text/css">
+    #hh2{
+      margin-left: 450px;
+    }
+    #logs2{
+      color: white;
+      text-decoration: none;
+    }
+.form-check{
+
+	margin-left: 30px;
+}
+.alert{
+      margin-left: 350px;
+      width: 500px;
+      margin-top: 5px;
+      border-radius: 12px;
+    }
+    body{
+		color: #fff;
+		font-family: 'Roboto', sans-serif;
+	}
+	.navbar{
+		position: fixed;
+		top: 0;
+		width: 100%;
+	}
+    .form-control{
+		height: 41px;
+		background: #f2f2f2;
+		box-shadow: none !important;
+		border: none;
+	}
+	.form-control:focus{
+		background: #e2e2e2;
+	}
+    .form-control, .btn{        
+        border-radius: 3px;
+    }
+	.signup-form{
+		width: 500px;
+		margin: 30px auto;
+		margin-top: 80px;
+	}
+	.signup-form form{
+		color: #999;
+		border-radius: 3px;
+    	margin-bottom: 15px;
+        background: #fff;
+        box-shadow: 1px 2px 2px 2px rgba(0, 0, 0, 0.3);
+        padding: 30px;
+    }
+	.signup-form h2 {
+		color: #333;
+		font-weight: bold;
+        margin-top: 0;
+        margin-left: 40px;
+    }
+    .signup-form hr {
+        margin: 0 -30px 20px;
+    }    
+	.signup-form .form-group{
+		margin-bottom: 20px;
+	}
+	.signup-form input[type="checkbox"]{
+		margin-top: 3px;
+	}
+	.signup-form .row div:first-child{
+		padding-right: 10px;
+	}
+	.signup-form .row div:last-child{
+		padding-left: 10px;
+	}
+    .signup-form a{
+		color: #fff;
+		text-decoration: underline;
+	}
+	.signup-form a:hover{
+		text-decoration: none;
+	}
+	.signup-form form a{
+		color: #3598dc;
+		text-decoration: none;
+	}	
+	.signup-form form a:hover{
+		text-decoration: underline;
+	}
+    .signup-form .hint-text {
+		padding-bottom: 15px;
+		text-align: center;
+    }
+
+#navbar{
+  width: 40px;
+}
+#nav-link{
+
+}
+#prof1{
+  color: #f7f7f7;
+}
+.error{
+  color:red;
+}
+
+  </style>
+
+</head>
+<body>
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js" integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo" crossorigin="anonymous"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js" integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js" integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM" crossorigin="anonymous"></script>
+
+ 
+
+      <nav class="navbar navbar-expand-md navbar-dark bg-dark">
+  <a class="navbar-brand" href="#">Event Tracker</a>
+  <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+    <span class="navbar-toggler-icon"></span>
+  </button>
+
+  <div class="collapse navbar-collapse" id="navbarSupportedContent">
+    <ul class="navbar-nav mr-auto">
+      <li class="nav-item">
+        <a class="nav-link" href="{{url_for('red_home')}}" >Home</a>
+      </li>
+      <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Events
+        </a>
+        <div class="dropdown-menu bg-dark" aria-labelledby="navbarDropdown">
+          <a class="dropdown-item bg-dark" href="{{url_for('events')}}" style="color: white;">Upcoming</a>
+          <a class="dropdown-item bg-dark" href="{{url_for('pevents')}}" style="color: white;">Earlier</a>
+        </div>
+      </li>
+    </ul>
+    <form class="form-inline my-2 my-lg-0">
+      <div class="dropdown">
+        <a class="nav-link dropdown-toggle" href="#" id="logs2" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          My Profile
+        </a>
+        <div class="dropdown-menu dropdown-menu-bottom bg-dark">
+          <a class="dropdown-item bg-dark" href="{{url_for('sevents')}}" style="color: white;">My Events</a>
+          <a class="dropdown-item active" href="{{url_for('settings')}}" style="color: white;">Settings</a>
+        </div>
+      </div>
+      <button class="btn btn-info my-2 my-sm-0" type="submit"><a id="logs2" href="{{url_for('logout')}}">Logout</a></button>
+    </form>
+  </div>
+</nav>
+
+<!-- Form to edit user details -->
+<<div class="signup-form">
+    <form action="" method="post">
+		<h2>Change your password</h2>
+		<hr>
+        <div class="form-group">
+		<p>Current Password<input type="password" class="form-control" name="opass" required="required"> </p>	
+        <p class="error">{{error1}} </p>
+        </div>
+        <div class="form-group">
+       <p>New password	<input type="password" class="form-control" name="pass1" required="required"></p>
+        </div>
+        <div class="form-group">
+       	Confirm Password<input type="password" class="form-control" name="pass2" required="required">
+        <p class="error">{{error2}}</p>
+        </div>
+        <div class="form-group">
+        	<a href="{{url_for('settings')}}" style="color: white;text-decoration: none;"><button type="button" class="btn btn-secondary btn-md">Cancel</button></a>
+        	<button type="submit" class="btn btn-primary btn-md" style="margin-left: 270px;">Save</button>
+        </div>
+	
+</div>
+
+
+</body>
+</html>
