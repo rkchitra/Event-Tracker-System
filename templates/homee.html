@@ -24,11 +24,11 @@
 
 	<header class="header">
 		<div class="header_content d-flex flex-row align-items-center justify-content-start">
-			<div class="logo"><a href="{{ url_for('create')}}">Create</a></div>
+			<div class="logo"><a href="{{url_for('create')}}">Create</a></div>
 			<div class="ml-auto d-flex flex-row align-items-center justify-content-start">
 				<nav class="main_nav">
 					<ul class="d-flex flex-row align-items-start justify-content-start">
-						<li class="active" style="margin-top: 7px;"><a href="{{url_for('homee')}}">Home</a></li>
+						<li class="active" style="margin-top: 7px;"><a href="{{url_for('home')}}">Home</a></li>
 						<li class="dropdown" style="margin-top: 0px;">
    						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           Events
@@ -40,6 +40,19 @@
   </div>
 </li>
 						</li>
+						<li class="dropdown" style="margin-top: 0px;">
+   						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Clubs
+        </a>
+
+  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background: black;">
+    <a class="dropdown-item" href="{{url_for('Onyx')}}" style="background: black;" >Onyx</a>
+    <a class="dropdown-item" href="{{url_for('IEEE')}}" style="background: black;">IEEE</a>
+    <a class="dropdown-item" href="{{url_for('ISSA')}}" style="background: black;">ISSA</a>
+    <a class="dropdown-item" href="{{url_for('UCSP')}}" style="background: black;">UCSP</a>
+    <a class="dropdown-item" href="{{url_for('force_i')}}" style="background: black;">Force Ikshavaku</a>
+  </div>
+</li>
 						<li></li>
 						<li></li>
 						<li></li>
@@ -49,7 +62,7 @@
 
 					</ul>
 				</nav>
-				<div class="book_button"><a href="{{url_for('red_prof')}}">My Profile</a></div>
+				<div class="book_button"><a href="{{url_for('sevents')}}">My Profile</a></div>
 				<div class="book_button d-flex flex-row align-items-center justify-content-center">
 					
 					<a href="{{url_for('logout')}}">LOGOUT</a>
@@ -107,19 +120,19 @@
 						<div class="container">
 							<div class="row">
 								<div class="col">
-									<div class="home_content text-center">
+								<a href="{{url_for('IEEE')}}">	<div class="home_content text-center">
 										<div class="home_title">IEEE</div>
 									</div>
 								</div>
 							</div>
 						</div>
-					</div>
+					</div></a>
 				</div>
 
 				<!-- Slide -->
 				<div class="slide">
 					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<div class="home_container">
+					<a href="{{url_for('force_i')}}"><div class="home_container">
 						<div class="container">
 							<div class="row">
 								<div class="col">
@@ -129,12 +142,12 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div></a>
 				</div>
 
 				<div class="slide">
 					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<div class="home_container">
+					<a href="{{url_for('ISSA')}}"><div class="home_container">
 						<div class="container">
 							<div class="row">
 								<div class="col">
@@ -144,12 +157,12 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div></a>
 				</div>
 				<div class="slide">
 					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
 					<div class="home_container">
-						<div class="container">
+						<a href="{{url_for('UCSP')}}"><div class="container">
 							<div class="row">
 								<div class="col">
 									<div class="home_content text-center">
@@ -158,7 +171,7 @@
 								</div>
 							</div>
 						</div>
-					</div>
+					</div></a>
 				</div>
 
 			</div>
@@ -178,10 +191,6 @@
 			
 		</div>
 	</div>
-
-
-
-	
 
 	<!-- Footer -->
 
@@ -216,7 +225,7 @@
 							<ul>
 								<li>Tel: 345 5667 889</li>
 								
-						        <li>acs@gmail.com</li>
+						        <li>acs.nie1234@gmail.com</li>
 							</ul>
 						</div>
 					</div>

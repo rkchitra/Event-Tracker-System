@@ -2,12 +2,12 @@
 #Python code for connecting front end to back end and executing queries and everything. 
 from flask import Flask,render_template,request,url_for,flash,session,redirect
 from flask_mysqldb import MySQL
+from datetime import datetime
 import os
-from flask_jsglue import JSGlue
 from flask_mail import Mail, Message
 
-app=Flask(__name__)
-jsglue = JSGlue(app)
+app=Flask(__name__) #instantiate an object for the Flask class, to which we pass the current module given by __name__
+#Flask constructor takes the name of the current module as an argument
 mail=Mail(app)
 
 #configure mail details
@@ -32,8 +32,11 @@ mysql=MySQL(app)
 
 
 #Sign-Up Page
-@app.route('/',methods=['GET','POST'])
-
+@app.route('/',methods=['GET','POST']) #root of the server, the URL ('/') is associated with the home function
+#GET - the server recieves data; POST - The server posts data (eg: HTML forms)
+#The route() function of the Flask class is a decorator, which tells the application which URL should call the associated function
+#The route() decorator in Flask is used to bind URL to a function. For example: In this case, the url ('/') is bound to the 
+#index function
 def index():
 	if 'email' in session :
 		return redirect(url_for('red_home'))
@@ -59,10 +62,14 @@ def index():
 			session['email']=email
 			session['eh']='N'
 			em=email
-			return redirect(url_for('home'))
+			return redirect(url_for('red_home'))
 	return render_template('sign_up.html', mesg="",mesg2="")
 
 
+
+@app.route('/testing',methods=['GET','POST'])
+def testingg() :
+	return render_template('test.html')
 
 #Home page for users(non-event handlers)
 @app.route('/home',methods=['GET','POST'])
@@ -77,8 +84,7 @@ def home():
 
 def index2():
 	if 'email' in session :
-		session.pop('email',None)
-		session.pop('eh',None)
+		return redirect(url_for('red_home'))
 	if request.method=='POST' :
 		#fetch login details
 		user2=request.form
@@ -233,8 +239,6 @@ def events():
 	mysql.connection.commit()
 	cur2.close()
 
-	global indexing
-	indexing=int(0)
 	if request.method == 'POST' :
 		val=request.form.getlist('filter_system')
 		cur=mysql.connection.cursor()
@@ -256,7 +260,7 @@ def events():
 
 		cur.close()
 		if len(val)==0 or val[0]=='All' :
-			return render_template('disp2.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2,list1=['All'])
+			return render_template('disp2.html',no=no2,ev=x2,max=no2,tot=no2,list1=['All'])
 		else :		
 			l2=[]
 			str2=x2
@@ -269,7 +273,7 @@ def events():
 				tuple(l2)
 				tuple(x1)
 				#return render_template('sample.html',val1=cn)
-			return render_template('disp2.html',no=x1,ev=l2,index=indexing,max=no2,tot=no2,list1=val)
+			return render_template('disp2.html',no=x1,ev=l2,max=no2,tot=no2,list1=val)
 		
 	else :
 		cur=mysql.connection.cursor()
@@ -290,7 +294,7 @@ def events():
 
 		cur.close()
 	l1=['All']
-	return render_template('disp2.html',no=no2,ev=x2,index=indexing,max=no2,tot=no2,list1=l1)
+	return render_template('disp2.html',no=no2,ev=x2,max=no2,tot=no2,list1=l1)
 
 
 #page that displays the previous events conducted in that academic year
@@ -360,7 +364,8 @@ def pevents():
 
 #page to register for events
 @app.route('/reg/<e__name>',methods=['GET','POST'])
-
+#It is possible to build a URL dynamically, by adding variable parts to the rule parameter. This variable part is marked as <variable-name>.
+#Here the variable is e__name which is the name of the event. The variable entered in the URL will be supplied to the function as an argument. 
 def reg(e__name):
 	if 'email' not in session :
 		return redirect(url_for('index2'))
@@ -378,6 +383,7 @@ def reg(e__name):
 	if temp :
 		flash("You've already registered for this event")
 		return redirect(url_for('sevents'))
+	#url_for is used to dynamically build a url. It accepts the name of the function and variables(arguments) and passes it to the function. 
 	
 
 	if request.method=='POST' :
@@ -452,7 +458,7 @@ def sevents():
 @app.route('/create',methods=['GET','POST'])
 def create():
 	if 'email' not in session or 'eh' not in session or session['eh']=='N' :
-		return redirect(url_for('index2'))
+		return render_template('error.html')
 	else :
 
 		if request.method=='POST':
@@ -465,7 +471,14 @@ def create():
 			venn=user['venue']
 			tm=user['time']
 			op=user['options']
+			if dt < str(datetime.date(datetime.now())) :
+				flash("Invalid date entered")
+				return redirect(url_for('events'))
 			cur=mysql.connection.cursor()
+			row=cur.execute("SELECT ename from events where ename=%s",(name,))
+			if row > 0 :
+				flash("Event name already exists")
+				return redirect(url_for('events'))
 			cur.execute("SELECT name from login where email=%s",(session['email'],))
 			n2=cur.fetchone()
 			cur.execute("INSERT INTO events(cname,ename,edescp,seats,dt,tm,venue,big_event) values(%s,%s,%s,%s,%s,%s,%s,%s)",(n2[0],name,desc,seats,dt,tm,venn,op))
@@ -500,6 +513,8 @@ def send_mail(clubname,eventname):
 	cur=mysql.connection.cursor()
 	cur.execute("SELECT email from notify where cname=%s",(clubname,))
 	recps=cur.fetchall()
+	if len(recps) == 0 :
+		return 
 	l1=[]
 	for val in recps :
 		l1.append(val[0])
@@ -522,13 +537,11 @@ def edit():
 		usn=events1['usn']
 		email1=events1['email']
 		ph=events1['pno']
-		cur=mysql.connection.cursor()
-		if email1!=session['email'] :  
-			c1=cur.execute("SELECT * from login where email=%s",(email1,))
-			c2=cur.execute("SELECT * from login where usn=%s",(usn,))
-			if c1 or c2 :
-				flash("Updates weren't saved as they already exist")
-				return redirect(url_for('sevents'))
+		cur=mysql.connection.cursor()  
+		c1=cur.execute("SELECT * from login where (email=%s or usn=%s) and email != %s",(email1,usn,session['email'],))
+		if c1 !=0 :
+			flash("Updates weren't saved as they already exist")
+			return redirect(url_for('sevents'))
 		cur.execute("UPDATE reg set sname=%s,usn=%s,ph=%s where email=%s",(sname,usn,ph,session['email']))
 		cur.execute("UPDATE login set name=%s,email=%s,usn=%s,pno=%s where email=%s ",(sname,email1,usn,ph,session['email'],))
 		session['email']=email1
@@ -567,8 +580,10 @@ def settings():
 		return redirect(url_for('index2'))
 	return render_template('settings.html')
 
-if __name__=='__main__':
+if __name__=='__main__': #If the current module is being run then __name__ will have the value '__main__' and in that case, we let the app run
 
 	app.run(debug=True)
+	#If the debug option is used, the server automatically loads when there's a change in the code. In its absence, the page must be manually
+	#reloaded
 
 

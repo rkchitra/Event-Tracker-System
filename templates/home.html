@@ -1,44 +1,58 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-<title>Event Tracker</title>
-<meta charset="utf-8">
-<meta http-equiv="X-UA-Compatible" content="IE=edge">
-<meta name="description" content="The River template project">
-<meta name="viewport" content="width=device-width, initial-scale=1">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/bootstrap-4.1.2/bootstrap.min.css')}}">
-<link href="{{url_for('static',filename='plugins/font-awesome-4.7.0/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/owl.carousel.css')}}">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/owl.theme.default.css')}}">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/animate.css')}}">
-<link href="{{url_for('static',filename='plugins/jquery-datepicker/jquery-ui.css')}}" rel="stylesheet" type="text/css">
-<link href="{{url_for('static',filename='plugins/colorbox/colorbox.css')}}" rel="stylesheet" type="text/css">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/main_styles.css')}}">
-<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}">
+	<title>Event Tracker</title>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<meta name="description" content="The River template project">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/bootstrap-4.1.2/bootstrap.min.css')}}">
+	<link href="{{url_for('static',filename='plugins/font-awesome-4.7.0/css/font-awesome.min.css')}}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/owl.carousel.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/owl.theme.default.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/animate.css')}}">
+	<link href="{{url_for('static',filename='plugins/jquery-datepicker/jquery-ui.css')}}" rel="stylesheet" type="text/css">
+	<link href="{{url_for('static',filename='plugins/colorbox/colorbox.css')}}" rel="stylesheet" type="text/css">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/main_styles.css')}}">
+	<link rel="stylesheet" type="text/css" href="{{url_for('static',filename='styles/responsive.css')}}">
+
 </head>
 <body>
 
-<div class="super_container">
-	
-	<!-- Header -->
+	<div class="super_container">
 
-	<header class="header">
-		<div class="header_content d-flex flex-row align-items-center justify-content-start">
-			<div class="logo"><a href="#">Welcome</a></div>
-			<div class="ml-auto d-flex flex-row align-items-center justify-content-start">
-				<nav class="main_nav">
-					<ul class="d-flex flex-row align-items-start justify-content-start">
-						<li class="active" style="margin-top: 7px;"><a href="{{url_for('home')}}">Home</a></li>
+		<!-- Header -->
+
+		<header class="header">
+			<div class="header_content d-flex flex-row align-items-center justify-content-start">
+				<div class="logo"><a href="#">Welcome</a></div>
+				<div class="ml-auto d-flex flex-row align-items-center justify-content-start">
+					<nav class="main_nav">
+						<ul class="d-flex flex-row align-items-start justify-content-start">
+							<li class="active" style="margin-top: 7px;"><a href="{{url_for('home')}}">Home</a></li>
+							<li class="dropdown" style="margin-top: 0px;">
+								<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+									Events
+								</a>
+
+								<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background: black;">
+									<a class="dropdown-item" href="{{url_for('events')}}" style="background: black;" >Upcoming</a>
+									<a class="dropdown-item" href="{{url_for('pevents')}}" style="background: black;">Earlier</a>
+								</div>
+							</li>
+						</li>
 						<li class="dropdown" style="margin-top: 0px;">
-   						<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-          Events
-        </a>
+							<a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+								Clubs
+							</a>
 
-  	<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background: black;">
-    <a class="dropdown-item" href="{{url_for('events')}}" style="background: black;" >Upcoming</a>
-    <a class="dropdown-item" href="{{url_for('pevents')}}" style="background: black;">Earlier</a>
-  </div>
-</li>
+							<div class="dropdown-menu" aria-labelledby="dropdownMenuButton" style="background: black;">
+								<a class="dropdown-item" href="{{url_for('Onyx')}}" style="background: black;" >Onyx</a>
+								<a class="dropdown-item" href="{{url_for('IEEE')}}" style="background: black;">IEEE</a>
+								<a class="dropdown-item" href="{{url_for('ISSA')}}" style="background: black;">ISSA</a>
+								<a class="dropdown-item" href="{{url_for('UCSP')}}" style="background: black;">UCSP</a>
+								<a class="dropdown-item" href="{{url_for('force_i')}}" style="background: black;">Force Ikshavaku</a>
+							</div>
 						</li>
 						<li></li>
 						<li></li>
@@ -54,187 +68,166 @@
 					
 					<a href="{{url_for('logout')}}">LOGOUT</a>
 				</div>
-		</div>
-	</header>
-
-	<!-- Menu -->
-
-	<div class="menu trans_400 d-flex flex-column align-items-end justify-content-start">
-		<div class="menu_close"><i class="fa fa-times" aria-hidden="true"></i></div>
-		<div class="menu_content">
-			<nav class="menu_nav text-right">
-				<ul>
-					<li><a href="#">Home</a></li>
-		
-				</ul>
-			</nav>
-		</div>
-		<div class="menu_extra">
-			<div class="menu_book text-right"><a href="#">Book online</a></div>
-			<div class="menu_phone d-flex flex-row align-items-center justify-content-center">
-				<img src="images/phone-2.png" alt="">
-				<span>0183-12345678</span>
 			</div>
-		</div>
-	</div>
+		</header>
 
-	<!-- Home -->
+		<!-- Home -->
 
-	<div class="home">
-		<div class="home_slider_container">
-			<div class="owl-carousel owl-theme home_slider">
-				
-				<!-- Slide -->
-				<div class="slide">
-					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<a href="{{url_for('Onyx')}}"><div class="home_container">
-						<div class="container">
-							<div class="row">
-								<div class="col">
-									<div class="home_content text-center">
-										<div class="home_title">Onyx</div>
+		<div class="home">
+			<div class="home_slider_container">
+				<div class="owl-carousel owl-theme home_slider">
+
+					<!-- Slide -->
+					<div class="slide">
+						<div class="background_image"></div>
+						<a href="{{url_for('Onyx')}}"><div class="home_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="home_content text-center">
+											<div class="home_title">Onyx</div>
+										</div>
 									</div>
 								</div>
 							</div>
-						</div>
-					</div> </a>
+						</div> </a>
+					</div>
+
+					<!-- Slide -->
+					<div class="slide">
+						<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
+						<div class="home_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<a href="{{url_for('IEEE')}}">	<div class="home_content text-center">
+											<div class="home_title">IEEE</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div></a>
+					</div>
+
+					<!-- Slide -->
+					<div class="slide">
+						<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
+						<a href="{{url_for('force_i')}}"><div class="home_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="home_content text-center">
+											<div class="home_title">Force Ikshvaku</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div></a>
+					</div>
+
+					<div class="slide">
+						<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
+						<a href="{{url_for('ISSA')}}"><div class="home_container">
+							<div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="home_content text-center">
+											<div class="home_title">ISSA</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div></a>
+					</div>
+					<div class="slide">
+						<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
+						<div class="home_container">
+							<a href="{{url_for('UCSP')}}"><div class="container">
+								<div class="row">
+									<div class="col">
+										<div class="home_content text-center">
+											<div class="home_title">UCSP</div>
+										</div>
+									</div>
+								</div>
+							</div>
+						</div></a>
+					</div>
+
 				</div>
 
-				<!-- Slide -->
-				<div class="slide">
-					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<div class="home_container">
-						<div class="container">
-							<div class="row">
-								<div class="col">
-								<a href="{{url_for('IEEE')}}">	<div class="home_content text-center">
-										<div class="home_title">IEEE</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div></a>
-				</div>
-
-				<!-- Slide -->
-				<div class="slide">
-					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<a href="{{url_for('force_i')}}"><div class="home_container">
-						<div class="container">
-							<div class="row">
-								<div class="col">
-									<div class="home_content text-center">
-										<div class="home_title">Force Ikshvaku</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div></a>
-				</div>
-
-				<div class="slide">
-					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<a href="{{url_for('ISSA')}}"><div class="home_container">
-						<div class="container">
-							<div class="row">
-								<div class="col">
-									<div class="home_content text-center">
-										<div class="home_title">ISSA</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div></a>
-				</div>
-				<div class="slide">
-					<div class="background_image" style="background-image:url(images/index_1.jpg)"></div>
-					<div class="home_container">
-						<a href="{{url_for('UCSP')}}"><div class="container">
-							<div class="row">
-								<div class="col">
-									<div class="home_content text-center">
-										<div class="home_title">UCSP</div>
-									</div>
-								</div>
-							</div>
-						</div>
-					</div></a>
+				<!-- Home Slider Dots -->
+				<div class="home_slider_dots_container">
+					<div class="home_slider_dots">
+						<ul id="home_slider_custom_dots" class="home_slider_custom_dots d-flex flex-row align-items-start justify-content-start">
+							<li class="home_slider_custom_dot active">01.</li>
+							<li class="home_slider_custom_dot">02.</li>
+							<li class="home_slider_custom_dot">03.</li>
+							<li class="home_slider_custom_dot">04</li>
+							<li class="home_slider_custom_dot">05</li>
+						</ul>
+					</div>
 				</div>
 
 			</div>
-			
-			<!-- Home Slider Dots -->
-			<div class="home_slider_dots_container">
-				<div class="home_slider_dots">
-					<ul id="home_slider_custom_dots" class="home_slider_custom_dots d-flex flex-row align-items-start justify-content-start">
-						<li class="home_slider_custom_dot active">01.</li>
-						<li class="home_slider_custom_dot">02.</li>
-						<li class="home_slider_custom_dot">03.</li>
-						<li class="home_slider_custom_dot">04</li>
-						<li class="home_slider_custom_dot">05</li>
-					</ul>
-				</div>
-			</div>
-			
 		</div>
-	</div>
 
-	<!-- Footer -->
+		<!-- Footer -->
 
-	<footer class="footer">
-		<div class="footer_content">
-			<div class="container">
-				<div class="row">
-					<div class="col">
-						
+		<footer class="footer">
+			<div class="footer_content">
+				<div class="container">
+					<div class="row">
+						<div class="col">
+
+						</div>
 					</div>
+					<div class="row footer_row">
+
+						<!-- Address -->
+						<div class="col-lg-3">
+							<div class="footer_title">Address</div>
+							<div class="footer_list">
+								<ul>
+									<li>The National Institute of Engineering</li>
+									<li>Mananthavady Road</li>
+									<li>Mysuru - 570008</li>
+									<li>Karnataka</li>
+									<li>India</li>
+								</ul>
+							</div>
+						</div>
+
+						<!-- Reservations -->
+						<div class="col-lg-3">
+							<div class="footer_title">Queries:</div>
+							<div class="footer_list">
+								<ul>
+									<li>Tel: 345 5667 889</li>
+
+									<li>acs.nie1234@gmail.com</li>
+								</ul>
+							</div>
+						</div>
+
+
+					</footer>
 				</div>
-				<div class="row footer_row">
-					
-					<!-- Address -->
-					<div class="col-lg-3">
-						<div class="footer_title">Address</div>
-						<div class="footer_list">
-							<ul>
-								<li>The National Institute of Engineering</li>
-							    <li>Mananthavady Road</li>
-								<li>Mysuru - 570008</li>
-								<li>Karnataka</li>
-								<li>India</li>
-							</ul>
-						</div>
-					</div>
 
-					<!-- Reservations -->
-					<div class="col-lg-3">
-						<div class="footer_title">Queries:</div>
-						<div class="footer_list">
-							<ul>
-								<li>Tel: 345 5667 889</li>
-								
-						        <li>acs.nie1234@gmail.com</li>
-							</ul>
-						</div>
-					</div>
-
-					
-	</footer>
-</div>
-
-<script src="{{url_for('static',filename='js/jquery-3.3.1.min.js')}}"></script>
-<script src="{{url_for('static',filename='styles/bootstrap-4.1.2/popper.js')}}"></script>
-<script src="{{url_for('static',filename='styles/bootstrap-4.1.2/bootstrap.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/greensock/TweenMax.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/greensock/TimelineMax.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/scrollmagic/ScrollMagic.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/greensock/animation.gsap.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/greensock/ScrollToPlugin.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/owl.carousel.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/easing/easing.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/progressbar/progressbar.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/parallax-js-master/parallax.min.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/jquery-datepicker/jquery-ui.js')}}"></script>
-<script src="{{url_for('static',filename='plugins/colorbox/jquery.colorbox-min.js')}}"></script>
-<script src="{{url_for('static',filename='js/custom.js')}}"></script>
-</body>
-</html>
+				<script src="{{url_for('static',filename='js/jquery-3.3.1.min.js')}}"></script>
+				<script src="{{url_for('static',filename='styles/bootstrap-4.1.2/popper.js')}}"></script>
+				<script src="{{url_for('static',filename='styles/bootstrap-4.1.2/bootstrap.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/greensock/TweenMax.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/greensock/TimelineMax.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/scrollmagic/ScrollMagic.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/greensock/animation.gsap.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/greensock/ScrollToPlugin.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/OwlCarousel2-2.3.4/owl.carousel.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/easing/easing.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/progressbar/progressbar.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/parallax-js-master/parallax.min.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/jquery-datepicker/jquery-ui.js')}}"></script>
+				<script src="{{url_for('static',filename='plugins/colorbox/jquery.colorbox-min.js')}}"></script>
+				<script src="{{url_for('static',filename='js/custom.js')}}"></script>
+			</body>
+			</html>

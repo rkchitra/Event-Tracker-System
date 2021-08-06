@@ -2,7 +2,6 @@
 <html>
 <head>
   <title>Display</title>
-  {{ JSGlue.include() }}
   <link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
   <link href="https://fonts.googleapis.com/css?family=PT+Serif|Roboto&display=swap" rel="stylesheet">
   <link href="https://fonts.googleapis.com/css?family=Cabin+Condensed&display=swap" rel="stylesheet">
@@ -45,7 +44,7 @@
  
 
       <nav class="navbar navbar-expand-md navbar-dark bg-dark">
-  <a class="navbar-brand" href="#"><i class="far fa-calendar-check"></i>  Event Tracker</a>
+  <a class="navbar-brand" href="#">Event Tracker</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
   </button>
@@ -64,6 +63,20 @@
           <a class="dropdown-item bg-dark" href="{{url_for('pevents')}}" style="color: white;">Earlier</a>
         </div>
       </li>
+      </li>
+            <li class="dropdown" style="margin-top: 0px;">
+              <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+          Clubs
+        </a>
+
+    <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton" style="background: black;">
+    <a class="dropdown-item bg-dark" href="{{url_for('Onyx')}}" style="color:white;" >Onyx</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('IEEE')}}" style="color:white;">IEEE</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('ISSA')}}" style="color:white;">ISSA</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('UCSP')}}" style="color:white;">UCSP</a>
+    <a class="dropdown-item bg-dark" href="{{url_for('force_i')}}" style="color: white;">Force Ikshavaku</a>
+  </div>
+</li>
      
     </ul>
     <form class="form-inline my-2 my-lg-0">
@@ -138,27 +151,9 @@ if (result) {
   <tbody>
 
         
-        {% for row in ev %} 
-            <tr id="tab2">
-              <div class="modal fade" id="exampleModalCenter" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered" role="document">
-    <div class="modal-content">
-      <div class="modal-header">
-        <h5 class="modal-title" id="exampleModalLongTitle">Are you sure you want to unregister?</h5>
-        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-          <span aria-hidden="true">&times;</span>
-        </button>
-      </div>
-      <div class="modal-body">
-        <p>You can always re-register if there are seats still available.</p>
-      </div>
-      <div class="modal-footer">
-        <button type="button" class="btn btn-secondary" data-dismiss="modal">Cancel</button>
-        <button type="button" class="btn btn-primary"><a href="{{url_for('unreg',e__name=row[1])}}" style="text-decoration: none;color: white;">Unregister</a></button>
-      </div>
-    </div>
-  </div>
-</div>
+        {% for row in ev %}
+          <tr>
+
                 {% if row[0]=='Onyx' %}
                 <th><a href="{{url_for('Onyx')}}">{{row[0]}}</a></th>
                 {% elif row[0] == 'IEEE' %}
@@ -210,6 +205,14 @@ if (result) {
             <tr id="tab2">
                 {% if row[0]=='Onyx' %}
                 <th><a href="{{url_for('Onyx')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'IEEE' %}
+                <th><a href="{{url_for('IEEE')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'Force Ikshvaku' %}
+                <th><a href="{{url_for('force_i')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'ISSA' %}
+                <th><a href="{{url_for('ISSA')}}">{{row[0]}}</a></th>
+                {% elif row[0] == 'UCSP' %}
+                <th><a href="{{url_for('UCSP')}}">{{row[0]}}</a></th>
                 {% else %}
                 <th><a href="#">{{row[0]}}</a></th>
                 {% endif %}
